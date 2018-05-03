@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+      Clinical Data Interchange Standards Consortium (CDISC)
+      Operational Data Model (ODM) for clinical data interchange
+
+      You can learn more about CDISC standards efforts at 
+      http://www.cdisc.org/standards/index.html
+  -->
+
+<ODM xmlns="http://www.cdisc.org/ns/odm/v1.3"
+     xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+     ODMVersion="1.2"  
+     FileOID="Example-1"
+     FileType="Transactional"
+     Description="Sample ItemData Extension"
+
+     AsOfDateTime="2018-03-31T00:00:00"
+     CreationDateTime="20018-04-04T07:57:00" >
+
+   <Study OID="Patient Questionnaire">
+
+      <!--
+            GlobalVariables is a REQUIRED section in ODM markup
+        -->
+<GlobalVariables>
+<StudyName>Patient Questionnaire</StudyName>
+<StudyDescription>This file contains patient questionnaire</StudyDescription>
+<ProtocolName>P_Q_1</ProtocolName>
+</GlobalVariables>
+
+   
+
+      <!--
+            Internal ODM markup required metadata
+        -->
+        
+<MetaDataVersion OID="v1.0.0" Name="MetaDataVersion_v1.0.0">
+         
+<Protocol>
+<StudyEventRef StudyEventOID="SE_Questionnaire0" OrderNumber="1" Mandatory="Yes" />
+</Protocol>
+
+<StudyEventDef OID="SE_Questionnaire0" Name="Visit1" Repeating="Yes" Type="Scheduled">
+<FormRef FormOID="FORM.ONE" OrderNumber="1" Mandatory="No" />
+</StudyEventDef>
+         
+<FormDef OID="FORM.ONE" Name="First Form" Repeating="Yes">
+<ItemGroupRef ItemGroupOID="IG.ONE"  OrderNumber="1" Mandatory="No" />
+</FormDef>
+
+         <!--
+               Columns defined in the table
+           -->
+   
+<ItemGroupDef OID="IG.ONE" Repeating="Yes"
+   Name="ItemData Extension"
+  
+   Comment="First Question">
+<ItemRef ItemOID="ID.Question1"   OrderNumber="1" Mandatory="No" />
+<ItemRef ItemOID="ID.Question2"   OrderNumber="2" Mandatory="No" /> 
+</ItemGroupDef>
+
+         <!--
+               Column attributes as defined in the table
+
+           -->
+   
+<ItemDef OID="ID.Question1.radioBut"    Name="Question1"  DataType="string" Comment="radio">
+<Question>
+<TranslatedText xml:lang="de">Hatten Sie in der letzten Woche deutliche Atemnot?</TranslatedText>
+</Question>
+<CodeListRef CodeListOID = "Q1"/> 
+</ItemDef>
+<ItemDef OID="ID.Question2.radioBut"    Name="Question2"  DataType="string" Comment="radio" >
+<Question>
+<TranslatedText xml:lang="de">  Wie stark fühlen Sie sich dadurch belastet?</TranslatedText>
+</Question>
+<CodeListRef CodeListOID = "Q2"/> 
+</ItemDef>
+
+
+<CodeList OID="Q1"  Name="Question1" DataType="text">
+<CodeListItem CodedValue="Ja">
+<Decode> 
+  <TranslatedText xml:lang="de">Ja</TranslatedText>
+</Decode>
+</CodeListItem>
+   
+   <CodeListItem CodedValue="Nein">
+<Decode> 
+  <TranslatedText xml:lang="de">Nein</TranslatedText>
+</Decode>
+</CodeListItem>
+</CodeList>
+ 
+ 
+<CodeList OID="Q2"   Name="Question2" DataType="integer">
+<CodeListItem CodedValue="0">
+   <Decode> 
+  <TranslatedText xml:lang="de">0</TranslatedText>
+   </Decode>
+</CodeListItem>
+<CodeListItem CodedValue="1">
+   <Decode> 
+  <TranslatedText xml:lang="de">1</TranslatedText>
+   </Decode>
+</CodeListItem>
+<CodeListItem CodedValue="2">
+   <Decode> 
+  <TranslatedText xml:lang="de">2</TranslatedText>
+   </Decode>
+</CodeListItem>
+<CodeListItem CodedValue="3">
+   <Decode> 
+  <TranslatedText xml:lang="de">3</TranslatedText>
+   </Decode>
+</CodeListItem>
+<CodeListItem CodedValue="4">
+   <Decode> 
+  <TranslatedText xml:lang="de">4</TranslatedText>
+   </Decode>
+</CodeListItem>
+<CodeListItem CodedValue="5">
+   <Decode> 
+  <TranslatedText xml:lang="de">5</TranslatedText>
+   </Decode>
+</CodeListItem>
+</CodeList>
+
+</MetaDataVersion>
+   </Study>
+
+
+   <!--
+         Administrative metadata
+    
+ 
+   <AdminData StudyOID="Patient Questionnaire">
+      <User OID="USR.Nurse1" 
+              <FullName>Nurse One</FullName>
+              <FirstName>Nurse</FirstName>
+              <LastName>One</LastName>
+              <Organization>Super Hospital</Organization>
+              <LocationRef LocationOID="LOC.site001"/>
+      </User>
+      <User OID="USR.Nurse2" UserType="Investigator">
+              <FullName>Nurse Two</FullName>
+              <FirstName>Nurse</FirstName>
+              <LastName>Two</LastName>
+              <Organization>Super Hospital</Organization>
+              <LocationRef LocationOID="LOC.site001"/>
+      </User>
+
+      
+      <Location OID="LOC.site001" Name="Super Hospital" LocationType="Site">
+              <MetaDataVersionRef StudyOID="Patient Questionnaire" MetaDataVersionOID="v1.0.0" EffectiveDate="20018-04-04"/>
+      </Location>
+
+
+      <SignatureDef OID="SD.cdisc001-es" Methodology="Electronic">
+              <Meaning>Signature Meaning</Meaning>
+              <LegalReason>Legal Reason</LegalReason>
+      </SignatureDef>
+   </AdminData>
+ -->
+   
+   <ReferenceData StudyOID="Patient Questionnaire" MetaDataVersionOID="v1.0.0" >
+<ItemGroupData ItemGroupOID="IG.ONE" ItemGroupRepeatKey="1"><ItemData ItemOID="ID.Question1.radioBut" Value="1"/><ItemData ItemOID="ID.Question2.radioBut" Value="Sample reference data line 1"/></ItemGroupData>
+</ReferenceData>
+   <!--
+         Clinical Data   : RawValue
+                           ItemData Extension
+                           Sample ItemData Extension
+     -->
+ 
+ 
+   <ClinicalData StudyOID="Patient Questionnaire" MetaDataVersionOID="v1.0.0">
+      <SubjectData SubjectKey="001"> <!-- Patient1-->
+         <StudyEventData StudyEventOID="SE_Questionnaire0" StudyEventRepeatKey="1">
+            <FormData FormOID="FORM.ONE" FormRepeatKey="1">
+               <ItemGroupData ItemGroupOID="IG.ONE" ItemGroupRepeatKey="ALL ATTRIBUTE" TransactionType="Insert">
+                  <ItemData ItemOID="ID.Question1.radioBut"  Value="SELECT1" />
+                  <ItemData ItemOID="ID.Question2.radioBut"  Value="SELECT1" />
+                 
+               </ItemGroupData>
+            </FormData>
+         </StudyEventData>
+      </SubjectData>
+ 
+
+   </ClinicalData>
+</ODM>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html >
+	<link rel="stylesheet" type = "text/css" href = "css/index.css">
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+<body> 
+
+<div class ="h1"> Patientenfragebogen </div> 
+
+<div class="question">
+<script type="text/javascript" src="cordova.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>   
+<script type="text/javascript">
+ 
+//XML auslesen
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+if (this.readyState == 4 && this.status == 200) {
+myFunction(this);
+}
+};
+
+xhttp.open("GET", "odm.xml", true);
+xhttp.send();
+
+//Xml Abfragen
+function myFunction(xml) {
+var xmlDoc = xml.responseXML;
+var x = xmlDoc.getElementsByTagName('TranslatedText')[0];
+var k = xmlDoc.getElementsByTagName('ItemDef')[0];
+
+//Attribute von Tag "ItemDef"
+var namek = k.getAttribute("Name");
+//Attribut enthält information zu GUI-Elementen (z.B. radio)
+var q = k.getAttribute("Comment");
+
+//Tag CodeList aufrufen und child "CodeListItem" suchen
+var codeList = xmlDoc.getElementsByTagName('CodeList')[0];
+var codeChilds = codeList.childNodes[1];
+//var codeChilds2 = codeList.childNodes[3];
+
+//Suche nach ItemDef "name" === CodeList "name"
+if(codeList.getAttribute("Name") === namek)
+{
+	//Attribute von CodeListItem auslesen (Antwortmöglichkeiten)
+	var value = codeChilds.getAttribute("CodedValue");
+	//var value2 = codeChilds2.getAttribute("CodedValue");
+}
+
+var y = x.childNodes[0];
+
+//ausgelesene Werte an HTML Dokument übergeben
+document.getElementById("Question1").innerHTML = y.nodeValue; 
+document.getElementById("radioQ1").setAttribute("type",q);
+//document.getElementById("radioQ2").setAttribute("type",q);
+
+document.getElementById("value").innerHTML = value;
+//document.getElementById("value2").innerHTML = value2;
+
+}  
+
+</script>
+  
+<p id ="Question1"> </p>
+
+
+	
+		<input id="radioQ1">
+		<label id="value"> </label> <br/>
+		<!--<input id="radioQ2">
+		<label id="value2"> </label>
+
+		-->
+
+</div>
+
+<div class="button">
+
+ <button type="button" id="weiter">Weiter</button>
+
+</div>
+
+
+
+
+
+</body> 
+
+</html>
