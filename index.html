@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 
 <html >
+
+<head>
 	<link rel="stylesheet" type = "text/css" href = "css/index.css">
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
-<body> 
+	
 
-<div class ="h1"> Patientenfragebogen </div> 
-
-<div class="question">
 <script type="text/javascript" src="cordova.js"></script>
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>   
 <script type="text/javascript">
- 
+
 //XML auslesen
 var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
@@ -23,10 +22,8 @@ if (this.readyState == 4 && this.status == 200) {
 myFunction(this);
 }
 };
-
-xhttp.open("GET", "odm.xml", true);
+xhttp.open("GET", "xml/odm.XML", true);
 xhttp.send();
-
 //Xml Abfragen
 function myFunction(xml) {
 var xmlDoc = xml.responseXML;
@@ -35,55 +32,108 @@ var k = xmlDoc.getElementsByTagName('ItemDef')[0];
 
 //Attribute von Tag "ItemDef"
 var namek = k.getAttribute("Name");
+
 //Attribut enthält information zu GUI-Elementen (z.B. radio)
 var q = k.getAttribute("Comment");
 
 //Tag CodeList aufrufen und child "CodeListItem" suchen
 var codeList = xmlDoc.getElementsByTagName('CodeList')[0];
+var childs = codeList.childNodes;
 var codeChilds = codeList.childNodes[1];
-//var codeChilds2 = codeList.childNodes[3];
 
 //Suche nach ItemDef "name" === CodeList "name"
 if(codeList.getAttribute("Name") === namek)
 {
-	//Attribute von CodeListItem auslesen (Antwortmöglichkeiten)
-	var value = codeChilds.getAttribute("CodedValue");
-	//var value2 = codeChilds2.getAttribute("CodedValue");
+	var value = [];
+
+	//Erstellt ein Array mit allen Werten des Attributs "CodedValue" (enthält Antwortmöglichkeiten)
+	// variable value = Antwortmöglichkeiten
+	for (i = 0; i < childs.length; i++)
+	{
+		if(childs[i].toString() === codeChilds.toString())
+		{
+			value.push(childs[i].getAttribute("CodedValue"));
+		}
+	
+	}
+	
+}
+var y = x.childNodes[0];
+document.getElementById("Question1").innerHTML = y.nodeValue; 
+
+
+//Fügt dem div mit id=displayPossibleAnswers radiobuttons und labels mit Antwortmöglichkeiten hinzu
+for(i = 0; i < value.length; i++)
+{
+	//Fügt ein radiobutton mit id=radio0 / id=radio1 usw. hinzu
+	$('#displayPossibleAnswers').append("<input id='radio" + i + "' type=" + q +" name='answer' value=" + value[i] +">");
+	//Fügt ein label mit id=value0 / id=value1 usw. und die dazugehörige Antwortmöglichkeiten hinzu
+	$('#displayPossibleAnswers').append("<label id='value" + i + "'>" + value[i] + "</label>");
+	//Nach jeder Antwortmöglichkeit ein Zeilenumbruch
+	$('#displayPossibleAnswers').append("<br />");
 }
 
-var y = x.childNodes[0];
 
-//ausgelesene Werte an HTML Dokument übergeben
-document.getElementById("Question1").innerHTML = y.nodeValue; 
-document.getElementById("radioQ1").setAttribute("type",q);
-//document.getElementById("radioQ2").setAttribute("type",q);
-
-document.getElementById("value").innerHTML = value;
-//document.getElementById("value2").innerHTML = value2;
 
 }  
+//beim Klicken des Buttons "weiter" soll antwort in XML gespeichert werden
 
-</script>
-  
-<p id ="Question1"> </p>
+function saveAnswer(){
 
+//array für angeklickte radiobuttons auswählen
+var radios = document.getElementsByName('answer');
 
 	
-		<input id="radioQ1">
-		<label id="value"> </label> <br/>
-		<!--<input id="radioQ2">
-		<label id="value2"> </label>
+	for (var i = 0, length = radios.length; i < length; i++)
+	{
+		if (radios[i].checked)
+		{
+		// die angeklickte Antwort in einer Variable "answer1" speichern
+		var answer1 = radios[i];
+		alert(radios[i].value);
+		
+		//Antwort in das XML -Dokument speichern****************hier müssen wir weiter machen
+		/*var xmlDoc = xml.responseXML;
+		var x = xmlDoc.getElementsByTagName("title")[0].childNodes[0];
+		x.insertData(0,"Cooking: ");*/
+		
+		// only one radio can be logically checked, don't check the rest
+		break;
+		}
+		 
+	}
+	
+	if (radios.length == 0 ){
+	alert("Bitte wählen Sie eine Antwort aus.");
+	}
+}
+</script>
 
-		-->
+</head>
+
+<body> 
+
+<div class ="h1"> Patientenfragebogen </div> 
+<form name = "question" action = "question2.html">
+<div class="question">
+
+	<p id ="Question1"> </p>
+	
+	<div id="displayPossibleAnswers">	
+
+
+	</div>
 
 </div>
+
 
 <div class="button">
 
- <button type="button" id="weiter">Weiter</button>
+ <button type="submit" id="weiter" onclick="saveAnswer()">Weiter</button>
 
 </div>
 
+</form>
 
 
 
