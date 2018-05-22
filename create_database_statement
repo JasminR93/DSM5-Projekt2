@@ -1,0 +1,59 @@
+CREATE TABLE form (
+    form_id int NOT NULL,
+    name varchar(45),
+    PRIMARY KEY (form_id)
+);
+
+CREATE TABLE pat_form (
+    pat_form_id int NOT NULL,
+    date_time datetime,
+    description varchar(45),
+	patient_id int,
+	form_id int,
+    PRIMARY KEY (pat_form_id),
+    FOREIGN KEY (patient_id) REFERENCES patient(patient_id),
+	FOREIGN KEY (form_id) REFERENCES form(form_id)
+);
+
+CREATE TABLE patient (
+    patient_id int NOT NULL,
+    lname varchar(45),
+    fname varchar(45),
+	birthdate date,
+    PRIMARY KEY (patient_id)
+);
+
+CREATE TABLE reg_obj_type (
+    reg_obj_type_id int NOT NULL,
+    description varchar(45),
+    PRIMARY KEY (reg_obj_type_id)
+);
+
+CREATE TABLE reg_obj_tab (
+    reg_obj_id int NOT NULL,
+    reg_obj_description varchar(100),
+	pos_x int,
+	pos_y int,
+	reg_obj_type_id int,
+    PRIMARY KEY (reg_obj_id),
+    FOREIGN KEY (reg_obj_type_id) REFERENCES reg_obj_type(reg_obj_type_id)
+);
+
+CREATE TABLE reg_obj_dat_tab (
+    reg_obj_dat_id int NOT NULL,
+    date_time datetime,
+	value_tab varchar(80),
+	reg_obj_id int,
+	pat_form_id int,
+	user_id int,
+    PRIMARY KEY (reg_obj_dat_id),
+    FOREIGN KEY (reg_obj_id) REFERENCES reg_obj_tab(reg_obj_id),
+	FOREIGN KEY (pat_form_id) REFERENCES pat_form(pat_form_id),
+	FOREIGN KEY (user_id) REFERENCES user_tab(user_id)
+);
+
+CREATE TABLE user_tab (
+	user_id int NOT NULL,
+	pw varchar(45),
+    PRIMARY KEY (user_id)
+);
