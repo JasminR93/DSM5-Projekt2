@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<patients>
+  <patient>
+    <id>01</id>
+    <firstname>Max</firstname>
+    <lastname>Müller</lastname>
+    <street>Müsterplatz 45</street>
+	<city>Ulm </city>
+	<dateOfBirth type="date">1995-06-16</dateOfBirth>
+  </patient>
+  <patient>
+    <id>02</id>
+    <firstname>Andreas</firstname>
+    <lastname>Schneider</lastname>
+    <street>Safranberg 45</street>
+	<city>Ulm </city>
+	<dateOfBirth type="date">2004-03-11</dateOfBirth>
+  </patient>
+ <patient>
+    <id>03</id>
+    <firstname>Leoni</firstname>
+    <lastname>Einstein</lastname>
+    <street>Müsterplatz 45</street>
+	<city>Ulm </city>
+	<dateOfBirth type="date">1975-12-26</dateOfBirth>
+  </patient>
+</patients>
