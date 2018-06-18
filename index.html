@@ -8,281 +8,297 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-    <meta http-equiv="Content-Security-Policy" content="img-src * 'self' data: https:; default-src *  'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *; child-src *" />
+	<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src * data:" />
                
-	 <script type="text/javascript" src="cordova.js"></script>
-	 <script type="text/javascript" charset="utf-8" src="js/SQLitePlugin.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/SQLitePlugin.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script> 
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+ 
+<script type="text/javascript">
+//XML auslesen
+if (window.XMLHttpRequest)
+{
+xhttp = new XMLHttpRequest();
+}
+else
+{
+xhttp=new ActiveObject("Microsoft.XMLHTTP");
+}
+var itemDefChilds = [];
+var questionChilds = [];
+var text = [];
+var quest = [];
+var t = [];
+var value = [];
+var counter = 0;
+var xmlDoc;
+var q = "";
+var answered = "";
+ 
+ 
+var db = window.openDatabase("xmldb.db", "1.0", "database", 1000000);
+document.addEventListener("deviceready", onDeviceReady, false);
+//C:\Users\Kristina\AppData\Local\Google\Chrome\User Data\Default\databases
 
-	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>  
-	
-	<script type="text/javascript">
-	//XML auslesen
-	if (window.XMLHttpRequest)
-	{
-		xhttp = new XMLHttpRequest();
-	}
-	else
-	{
-		xhttp=new ActiveObject("Microsoft.XMLHTTP");
-	}
-	var itemDefChilds = [];
-	var questionChilds = [];
-	var text = [];
-	var quest = [];
-	var t = [];
-	var xmlDoc;
-	
-	var db = window.openDatabase("xmldb", "1.0", "database", 1000000);
-	document.addEventListener("deviceready", onDeviceReady, false);
-	//C:\Users\Kristina\AppData\Local\Google\Chrome\User Data\Default\databases
-
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && (this.status == 200 || this.status == 0) ) {
-		myFunction(this);
-		}
-	};
-	xhttp.open("GET", "odm.XML", true);
-	xhttp.onLoad = function() {
+xhttp.onreadystatechange = function() {
+if (this.readyState == 4 && (this.status == 200 ) ) {
+getQuestions(this);
+}
+};
+xhttp.open("GET", "xml/odm.XML", true);
+xhttp.onLoad = function() {
     // Data is loaded, now it can be used:
     xmlDoc = xmlhttp.responseXML;
+	
+}
+xhttp.send();
+
+
+// Liest alle Fragen und Antwortmöglichkeitein aus
+function getQuestions(xml)
+{
+
+xmlDoc = xml.responseXML;
+var xnext = xmlDoc.getElementsByTagName('TranslatedText')[1];
+var k = xmlDoc.getElementsByTagName('ItemDef')[0];
+var knext = xmlDoc.getElementsByTagName('ItemDef')[1];
+var question = xmlDoc.getElementsByTagName('Question')[0];
+ var x = xmlDoc.getElementsByTagName('TranslatedText')[0];
+var itemDef = xmlDoc.getElementsByTagName('ItemDef');
+
+//Region alle Fragen aus XML auslesen
+for(var i = 0; i < itemDef.length; i++)
+{
+ 
+itemDefChilds.push(itemDef[i].childNodes);
+ 
+}
+for(var i = 0; i < itemDefChilds.length; i++)
+{
+for(var j = 0; j < itemDefChilds.length; j++)
+   {             
+if(itemDefChilds[i][j].toString() === question.toString())
+{
+questionChilds.push(itemDefChilds[i][j].childNodes);                                   
+}
+  
+}
+  
+}
+   
+   
+for(var i = 0; i < questionChilds.length; i++)
+{
+for(var j = 0; j < questionChilds.length; j++)
+{
+if(questionChilds[i][j].toString() === x.toString())
+{
+text.push(questionChilds[i][j].childNodes);
+}
+}
+  
+}
+   
+for(var i = 0; i < text.length; i++)
+{
+	for(var j = 0; j < text[i].length; j++)
+	{             
+	quest.push(text[i][j].nodeValue);
+	  
 	}
-	xhttp.send();
+  
+}
+
+//Endregion Fragen auslesen
+
+
+//Region Antwortmöglichkeitein für alle Fragen auslesen
+//Attribute von Tag "ItemDef"
+var namek = k.getAttribute("Name");
+//Attribut enthält information zu GUI-Elementen (z.B. radio)
+q = k.getAttribute("Comment");
+//Tag CodeList aufrufen und child "CodeListItem" suchen
+var codeList = xmlDoc.getElementsByTagName('CodeList')[0];
+var childs = codeList.childNodes;
+var codeChilds = codeList.childNodes[1];
+//Suche nach ItemDef "name" === CodeList "name"
+if(codeList.getAttribute("Name") === namek)
+{
+//Erstellt ein Array mit allen Werten des Attributs "CodedValue" (enthält Antwortmöglichkeiten)
+// variable value = Antwortmöglichkeiten
+for (i = 0; i < childs.length; i++)
+{
+if(childs[i].toString() === codeChilds.toString())
+{
+value.push(childs[i].getAttribute("CodedValue"));
+}
+   
+}
+   
+}
+//Endregion Antwortmöglichkeitein auslesen
+
+setHTML();
 	
+}
+ 
 
-	//Xml Abfragen
-	function myFunction(xml) {
-	
-		xmlDoc = xml.responseXML;
-		var x = xmlDoc.getElementsByTagName('TranslatedText')[0];
-		var xnext = xmlDoc.getElementsByTagName('TranslatedText')[1];
-		var k = xmlDoc.getElementsByTagName('ItemDef')[0];
-		var knext = xmlDoc.getElementsByTagName('ItemDef')[1];
-		var question = xmlDoc.getElementsByTagName('Question')[0];
-		 
-		var itemDef = xmlDoc.getElementsByTagName('ItemDef');
-		 
-		 
-		//Die nächsten 4 For Schleifen lesen alle Fragen aus dem XML Dokument aus
-		// PROBLEM : Muss noch bearbeitet werden
-		for(var i = 0; i < itemDef.length; i++)
-		{
-		 
-			childs= itemDefChilds.push(itemDef[i].childNodes);
-		 
-		}
-		for(var i = 0; i < itemDefChilds.length; i++)
-		{
-			for(var j = 0; j < itemDefChilds.length; j++)
-		   {             
-				if(itemDefChilds[i][j].toString() === question.toString())
-					{
-						questionChilds.push(itemDefChilds[i][j].childNodes);                                   
-					}
-									  
-			}
-									  
-		}
-					   
-					   
-		for(var i = 0; i < questionChilds.length; i++)
-		{
-			for(var j = 0; j < questionChilds.length; j++)
-			{
-				if(questionChilds[i][j].toString() === x.toString())
-				{
-					text.push(questionChilds[i][j].childNodes);
-				}
-			}
-									  
-		}
-					   
-		for(var i = 0; i < text.length; i++)
-		{
-			for(var j = 0; j < text[i].length; j++)
-			{             
-				quest.push(text[i][j].nodeValue);
-																	  
-			}
-									  
-		}
-									  
-		 
-					   
-					   
-		 
-		//Attribute von Tag "ItemDef"
-		var namek = k.getAttribute("Name");
-		//Attribut enthält information zu GUI-Elementen (z.B. radio)
-		var q = k.getAttribute("Comment");
-		//Tag CodeList aufrufen und child "CodeListItem" suchen
-		var codeList = xmlDoc.getElementsByTagName('CodeList')[0];
-		var childs = codeList.childNodes;
-		var codeChilds = codeList.childNodes[1];
-		//Suche nach ItemDef "name" === CodeList "name"
-		if(codeList.getAttribute("Name") === namek)
-		{
-			var value = [];
-			//Erstellt ein Array mit allen Werten des Attributs "CodedValue" (enthält Antwortmöglichkeiten)
-						// variable value = Antwortmöglichkeiten
-			for (i = 0; i < childs.length; i++)
-			{
-				if(childs[i].toString() === codeChilds.toString())
-				{
-					value.push(childs[i].getAttribute("CodedValue"));
-				}
-					   
-			}
-					   
-		}
-		var y = x.childNodes[0];
-		document.getElementById("Question1").innerHTML = y.nodeValue;
-		//Fügt dem div mit id=displayPossibleAnswers radiobuttons und labels mit Antwortmöglichkeiten hinzu
-		for(i = 0; i < value.length; i++)
-		{
-			//Fügt ein radiobutton mit id=radio0 / id=radio1 usw. hinzu
-			$('#displayPossibleAnswers').append("<input id='radio" + i + "' type=" + q +" name='answer' value=" + value[i] +">");
-			//Fügt ein label mit id=value0 / id=value1 usw. und die dazugehörige Antwortmöglichkeiten hinzu
-			$('#displayPossibleAnswers').append("<label id='value" + i + "'>" + value[i] + "</label>");
-			//Nach jeder Antwortmöglichkeit ein Zeilenumbruch
-			$('#displayPossibleAnswers').append("&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-		}
-		 
-		 
-	} 
-	 
-	 
-	 function errorHandler(transaction, error) {
-		alert('Error: ' + error.message + ' code: ' + error.code);
+//Verändert das HTML Dokument mit den in qetQuestions() ausgelesenen Fragen und Antwortmöglichkeitein
+function setHTML() {
+ 
 
-	}
-	 
-	 function successCallBack() {
-		alert("DEBUGGING: success");
+document.getElementById("Question1").innerHTML = quest[counter];
+ 
+for(i = 0; i < value.length; i++)
+{
+document.getElementById("testForm").innerHTML += "<input id='radio" + i + "' type=" + q +" name='answer' value=" + value[i] +"/>  <label id='value" + i + "'>" + value[i] + "</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+}
 
-	}       
+$("#testForm").trigger("creat");
 
-	
-	function onDeviceReady(){
-	
-		db.transaction(populateDB, errorCB, successCB);
+counter++;
+ 
+} 
+ 
+ 
+function errorHandler(transaction, error) {
+//alert('Error: ' + error.message + ' code: ' + error.code);
 
-					function populateDB(tx){
-					tx.executeSql('CREATE TABLE IF NOT EXISTS answer (answer TEXT)');
-					
-					}
-					function errorCB(err) {
-					 alert("Error processing SQL: "+err.code);
-					}
+}
+ 
+function successCallBack() {
+//alert("DEBUGGING: success");
 
-					function successCB() {
-					  alert("successPopulate!");
-					}
-		
-		fetchData();
-	}
-	
-	//beim Klicken des Buttons "weiter" soll antwort in XML gespeichert werden
-	function saveAnswer(){
-	//array für angeklickte radiobuttons auswählen
-		var radios = document.getElementsByName('answer');
-		 
-			
-		 
-		for (var i = 0, length = radios.length; i < length; i++)
-		{
-			if (radios[i].checked)
-			{
-				// die angeklickte Antwort in einer Variable "answer1" speichern
-				var answer1 = radios[i];
-				alert(radios[i].value);
-				var x = xmlDoc.getElementsByTagName("FormData")[0].childNodes[1];
-				var child = x.childNodes[1];
-				child.setAttribute("Value",radios[i].value);
-				var y= child.getAttribute("Value");
-				 
-				//Antwort in das XML -Dokument speichern****************hier müssen wir weiter machen
-				
+}       
 
-					db.transaction(insertAnswer, errorCB, successCB);
-					function insertAnswer(tx){
-					 
-					 tx.executeSql("INSERT INTO answer(answer) VALUES (?)",[y]);
-					}
+ 
+function onDeviceReady(){
+ 
+db.transaction(populateDB, errorCB, successCB);
 
-					function errorCB(err) {
-					 alert("Error processing SQL: "+err.message);
-					}
+function populateDB(tx){
+tx.executeSql('CREATE TABLE IF NOT EXISTS answer (answer TEXT)');
+ 
+}
+function errorCB(err) {
+//alert("Error processing SQL: "+err.code);
+}
 
-					function successCB() {
-					  alert("successInsert!");
-					}
-					
-				
-				
+function successCB() {
+ // alert("successPopulate!");
+}
 
-			  // only one radio can be logically checked, don't check the rest
-			break;
-			}
-									  
-		}
-					   
-		if (radios.length == 0 )
-		{
-			alert("Bitte wählen Sie eine Antwort aus.");
-		} 
-		$("div").remove("#displayPossibleAnswers");
-		$("div").remove("#Question1");
-	
-	
+ 
+fetchData();
+}
+ 
+//beim Klicken des Buttons "weiter" soll antwort in XML gespeichert werden
+function saveAnswer(){
+//array für angeklickte radiobuttons auswählen
+var radios = document.getElementsByName('answer');
+ 
+ 
+ 
+for (var i = 0, length = radios.length; i < length; i++)
+{
+if (radios[i].checked)
+{
+// die angeklickte Antwort in einer Variable "answer1" speichern
+var answer1 = radios[i];
+////alert(radios[i].value);
+var x = xmlDoc.getElementsByTagName("FormData")[0].childNodes[1];
+var child = x.childNodes[1];
+child.setAttribute("Value",radios[i].value);
+var y= child.getAttribute("Value");
+ 
+//Antwort in das XML -Dokument speichern****************hier müssen wir weiter machen
+ 
 
-	}
-	
-	function fetchData()
-	{
-		db.transaction(function(tx){
-				 
-				 tx.executeSql("select * from answer",[],function(tx,result){
-				   var len = result.rows.length;
-				 
-				   for (var i=0; i<len; i++){
-					var answer = result.rows.item(i).answer;
-									   alert("ANtwort: "+answer);
-				   }
-				 
-				 },errorCB);
-				}, errorCB, successCB);
-				
-				function errorCB(err) {
-					 alert("Error processing SQL: "+err.code);
-					}
+db.transaction(insertAnswer, errorCB, successCB);
+function insertAnswer(tx){
+ 
+tx.executeSql("INSERT INTO answer(answer) VALUES (?)",[y]);
+}
 
-					function successCB() {
-					  alert("successFetchData!");
-					}
-	}
-	</script>
-	 
+function errorCB(err) {
+//alert("Error processing SQL: "+err.message);
+}
+
+function successCB() {
+ // alert("successInsert!");
+}
+ 
+ 
+ 
+
+  // only one radio can be logically checked, don't check the rest
+break;
+}
+  
+}
+   
+if (radios.length == 0 )
+{
+alert("Bitte wählen Sie eine Antwort aus.");
+} 
+
+if(counter < quest.length)
+{
+	setHTML();
+}else{
+	alert("Vielen Dank! :)");
+}
+ 
+}
+ 
+function fetchData()
+{
+db.transaction(function(tx){
+ 
+tx.executeSql("select * from answer",[],function(tx,result){
+   var len = result.rows.length;
+ 
+   for (var i=0; i<len; i++){
+var answer = result.rows.item(i).answer;
+  // alert("ANtwort: "+answer);
+   }
+ 
+},errorCB);
+}, errorCB, successCB);
+ 
+function errorCB(err) {
+//alert("Error processing SQL: "+err.code);
+}
+
+function successCB() {
+ // alert("successFetchData!");
+}
+}
+</script>
+ 
 </head>
  
 <body>
  
 <div class ="h1"> Patientenfragebogen </div>
 
-<form name = "question">
-	
-	<div class="question">
-		<p id ="Question1"> </p>
-		<div id="displayPossibleAnswers"> </div>
-	</div>
+<div class="question">
+<form id= "testForm" name = "question">
+<p id ="Question1"> </p>
+<div id="displayPossibleAnswers">
+
+</div>
+</div>
  
  
-	<div class="button">
-		<button type="submit" id="weiter" onclick="saveAnswer()">Weiter</button>
-	</div>
+<div class="button">
+<button type="submit" id="weiter" onclick="saveAnswer()">Weiter</button>
+</div>
 
  
 </form>
 
 </body>
  
-</html>
+</html>​
