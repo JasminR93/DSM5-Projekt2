@@ -1,6 +1,6 @@
 <!DOCTYPE html>
  
-<html >
+<html>
  
 <head>
     <link rel="stylesheet" type = "text/css" href = "css/index.css">
@@ -8,43 +8,40 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-	<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src * data:" />
-               
+     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src * data:" />
+
     <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/SQLitePlugin.js"></script>
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script> 
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="https://debug2.phonegap.com/target/target-script-min.js#e11e6db2-753a-11e8-8af8-0ec4f527fa0c"></script>
  
 <script type="text/javascript">
 //XML auslesen
 if (window.XMLHttpRequest)
 {
-xhttp = new XMLHttpRequest();
-}
-else
-{
-xhttp=new ActiveObject("Microsoft.XMLHTTP");
+    xhttp = new XMLHttpRequest();
+}else{
+   
+    xhttp=new ActiveObject("Microsoft.XMLHTTP");
 }
 var itemDefChilds = [];
 var questionChilds = [];
 var text = [];
-var quest = [];
-var t = [];
-var value = [];
-var counter = 0;
+var childsCodeListArray = [];
+var answers = [];
+var keyAnswer = [];
 var xmlDoc;
 var q = "";
-var answered = "";
- 
  
 var db = window.openDatabase("xmldb.db", "1.0", "database", 1000000);
 document.addEventListener("deviceready", onDeviceReady, false);
 //C:\Users\Kristina\AppData\Local\Google\Chrome\User Data\Default\databases
 
 xhttp.onreadystatechange = function() {
-if (this.readyState == 4 && (this.status == 200 ) ) {
-getQuestions(this);
-}
+    if (this.readyState == 4 && (this.status == 200 ) ) {
+    getQuestions(this);
+    }
 };
 xhttp.open("GET", "xml/odm.XML", true);
 xhttp.onLoad = function() {
@@ -58,108 +55,123 @@ xhttp.send();
 // Liest alle Fragen und Antwortmöglichkeitein aus
 function getQuestions(xml)
 {
-
-xmlDoc = xml.responseXML;
-var xnext = xmlDoc.getElementsByTagName('TranslatedText')[1];
-var k = xmlDoc.getElementsByTagName('ItemDef')[0];
-var knext = xmlDoc.getElementsByTagName('ItemDef')[1];
-var question = xmlDoc.getElementsByTagName('Question')[0];
- var x = xmlDoc.getElementsByTagName('TranslatedText')[0];
-var itemDef = xmlDoc.getElementsByTagName('ItemDef');
-
-//Region alle Fragen aus XML auslesen
-for(var i = 0; i < itemDef.length; i++)
-{
- 
-itemDefChilds.push(itemDef[i].childNodes);
- 
-}
-for(var i = 0; i < itemDefChilds.length; i++)
-{
-for(var j = 0; j < itemDefChilds.length; j++)
-   {             
-if(itemDefChilds[i][j].toString() === question.toString())
-{
-questionChilds.push(itemDefChilds[i][j].childNodes);                                   
-}
-  
-}
-  
-}
-   
-   
-for(var i = 0; i < questionChilds.length; i++)
-{
-for(var j = 0; j < questionChilds.length; j++)
-{
-if(questionChilds[i][j].toString() === x.toString())
-{
-text.push(questionChilds[i][j].childNodes);
-}
-}
-  
-}
-   
-for(var i = 0; i < text.length; i++)
-{
-	for(var j = 0; j < text[i].length; j++)
-	{             
-	quest.push(text[i][j].nodeValue);
-	  
-	}
-  
-}
-
-//Endregion Fragen auslesen
+    counter = 0;
+    quest = [];
 
 
-//Region Antwortmöglichkeitein für alle Fragen auslesen
-//Attribute von Tag "ItemDef"
-var namek = k.getAttribute("Name");
-//Attribut enthält information zu GUI-Elementen (z.B. radio)
-q = k.getAttribute("Comment");
-//Tag CodeList aufrufen und child "CodeListItem" suchen
-var codeList = xmlDoc.getElementsByTagName('CodeList')[0];
-var childs = codeList.childNodes;
-var codeChilds = codeList.childNodes[1];
-//Suche nach ItemDef "name" === CodeList "name"
-if(codeList.getAttribute("Name") === namek)
-{
-//Erstellt ein Array mit allen Werten des Attributs "CodedValue" (enthält Antwortmöglichkeiten)
-// variable value = Antwortmöglichkeiten
-for (i = 0; i < childs.length; i++)
-{
-if(childs[i].toString() === codeChilds.toString())
-{
-value.push(childs[i].getAttribute("CodedValue"));
-}
-   
-}
-   
-}
-//Endregion Antwortmöglichkeitein auslesen
+    xmlDoc = xml.responseXML;
+    var k = xmlDoc.getElementsByTagName('ItemDef')[0];
+    var question = xmlDoc.getElementsByTagName('Question')[0];
+     var x = xmlDoc.getElementsByTagName('TranslatedText')[0];
+    var itemDef = xmlDoc.getElementsByTagName('ItemDef');
 
-setHTML();
-	
+    //Region alle Fragen aus XML auslesen
+    for(var i = 0; i < itemDef.length; i++)
+    {
+
+        itemDefChilds.push(itemDef[i].childNodes);
+
+    }
+    
+    for(var i = 0; i < itemDefChilds.length; i++)
+    {
+        for(var j = 0; j < itemDefChilds[i].length; j++)
+           {             
+            if(itemDefChilds[i][j].toString() === question.toString())
+            {
+                questionChilds.push(itemDefChilds[i][j].childNodes);                                   
+            }
+
+        }
+
+    }
+
+
+    for(var i = 0; i < questionChilds.length; i++)
+        {
+            for(var j = 0; j < questionChilds[i].length; j++)
+            {
+                if(questionChilds[i][j].toString() === x.toString())
+                {
+                    text.push(questionChilds[i][j].childNodes);
+                }
+        }
+
+    }
+
+    for(var i = 0; i < text.length; i++)
+    {
+        for(var j = 0; j < text[i].length; j++)
+        {             
+            quest.push(text[i][j].nodeValue);
+        }
+
+    }
+
+    //Endregion Fragen auslesen
+
+
+    //Region Antwortmöglichkeitein für alle Fragen auslesen
+    //Attribut enthält information zu GUI-Elementen (z.B. radio)
+    q = k.getAttribute("Comment");
+    var codeList = xmlDoc.getElementsByTagName('CodeList')[0];
+    var codeChilds = codeList.childNodes[1];
+
+    //Alle CodeList Tags suchen
+    var codeListArray = xmlDoc.getElementsByTagName('CodeList');
+    for(var i = 0; i < codeListArray.length ; i++)
+    {
+
+        childsCodeListArray.push(codeListArray[i].childNodes);
+        keyAnswer.push(codeListArray[i].getAttribute("Name"));
+
+    }
+
+    for (var i = 0; i < childsCodeListArray.length; i++)
+    {
+        var possibleAnswers = [];
+        for (var j = 0; j < childsCodeListArray[i].length; j++)
+        {
+            if(childsCodeListArray[i][j].toString() === codeChilds.toString())
+            {
+
+                possibleAnswers.push([childsCodeListArray[i][j].getAttribute("CodedValue")]); 
+
+            }
+
+        }
+        answers[keyAnswer[i]] = [possibleAnswers];
+    }
+    //Endregion Antwortmöglichkeitein auslesen
+
+    setHTML();
+
 }
  
 
 //Verändert das HTML Dokument mit den in qetQuestions() ausgelesenen Fragen und Antwortmöglichkeitein
 function setHTML() {
- 
-
+if(counter>0){
+document.getElementById("answer").innerHTML ="";
+}
 document.getElementById("Question1").innerHTML = quest[counter];
- 
-for(i = 0; i < value.length; i++)
+
+//document.getElementById("testForm").innerHTML += "<p id ='Question1" + counter +"'>" +quest[counter] +" </p>";
+
+for(var i = 0; i < answers[keyAnswer[counter]].length; i++)
 {
-document.getElementById("testForm").innerHTML += "<input id='radio" + i + "' type=" + q +" name='answer' value=" + value[i] +"/>  <label id='value" + i + "'>" + value[i] + "</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    for(var j = 0; j < answers[keyAnswer[counter]][i].length; j++)
+    {
+        document.getElementById("answer").innerHTML += "<input id='radio" + j + "' type=" + q +" class='answer' name='answer' value=" + answers[keyAnswer[counter]][i][j] +"/>  <label id='value" + j + " class = 'answer''>" + answers[keyAnswer[counter]][i][j] + "</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+
+    }
 }
 
 $("#testForm").trigger("creat");
 
 counter++;
  
-} 
+}
  
  
 function errorHandler(transaction, error) {
@@ -202,7 +214,7 @@ var radios = document.getElementsByName('answer');
  
 for (var i = 0, length = radios.length; i < length; i++)
 {
-if (radios[i].checked)
+    if (radios[i].checked)
 {
 // die angeklickte Antwort in einer Variable "answer1" speichern
 var answer1 = radios[i];
@@ -243,6 +255,7 @@ if (radios.length == 0 )
 alert("Bitte wählen Sie eine Antwort aus.");
 } 
 
+
 if(counter < quest.length)
 {
 	setHTML();
@@ -277,28 +290,27 @@ function successCB() {
 }
 </script>
  
-</head>
- 
-<body>
+    </head>
+
+    <body>
  
 <div class ="h1"> Patientenfragebogen </div>
 
 <div class="question">
-<form id= "testForm" name = "question">
-<p id ="Question1"> </p>
-<div id="displayPossibleAnswers">
-
-</div>
+    <form id= "testForm" name = "question">
+        <p id ="Question1"> </p>
+        <div id = "answer"> </div>
+    </form>
 </div>
  
  
 <div class="button">
-<button type="submit" id="weiter" onclick="saveAnswer()">Weiter</button>
+    <button type="submit" id="weiter" onclick="saveAnswer()">Weiter</button>
 </div>
 
  
-</form>
+
 
 </body>
- 
-</html>​
+
+</html>
