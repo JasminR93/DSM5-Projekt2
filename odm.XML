@@ -1,138 +1,674 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
       Clinical Data Interchange Standards Consortium (CDISC)
       Operational Data Model (ODM) for clinical data interchange
-
       You can learn more about CDISC standards efforts at 
       http://www.cdisc.org/standards/index.html
   -->
-
-<ODM xmlns="http://www.cdisc.org/ns/odm/v1.3"
-     xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-
-     ODMVersion="1.2"  
-     FileOID="Example-1"
-     FileType="Transactional"
-     Description="Sample ItemData Extension"
-
-     AsOfDateTime="2018-03-31T00:00:00"
-     CreationDateTime="20018-04-04T07:57:00" >
-
+<ODM xmlns="http://www.cdisc.org/ns/odm/v1.3" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ODMVersion="1.2" FileOID="Example-1" FileType="Transactional" Description="Sample ItemData Extension" AsOfDateTime="2018-03-31T00:00:00" CreationDateTime="20018-04-04T07:57:00">
    <Study OID="Patient Questionnaire">
-
       <!--
             GlobalVariables is a REQUIRED section in ODM markup
         -->
-<GlobalVariables>
-<StudyName>Patient Questionnaire</StudyName>
-<StudyDescription>This file contains patient questionnaire</StudyDescription>
-<ProtocolName>P_Q_1</ProtocolName>
-</GlobalVariables>
-
-   
-
+      <GlobalVariables>
+         <StudyName>Patient Questionnaire</StudyName>
+         <StudyDescription>This file contains patient questionnaire</StudyDescription>
+         <ProtocolName>P_Q_1</ProtocolName>
+      </GlobalVariables>
       <!--
             Internal ODM markup required metadata
         -->
-        
-<MetaDataVersion OID="v1.0.0" Name="MetaDataVersion_v1.0.0">
-         
-<Protocol>
-<StudyEventRef StudyEventOID="SE_Questionnaire0" OrderNumber="1" Mandatory="Yes" />
-</Protocol>
-
-<StudyEventDef OID="SE_Questionnaire0" Name="Visit1" Repeating="Yes" Type="Scheduled">
-<FormRef FormOID="FORM.ONE" OrderNumber="1" Mandatory="No" />
-</StudyEventDef>
-         
-<FormDef OID="FORM.ONE" Name="First Form" Repeating="Yes">
-<ItemGroupRef ItemGroupOID="IG.ONE"  OrderNumber="1" Mandatory="No" />
-</FormDef>
-
+      <MetaDataVersion OID="v1.0.0" Name="MetaDataVersion_v1.0.0">
+         <Protocol>
+            <StudyEventRef StudyEventOID="SE_Questionnaire0" OrderNumber="1" Mandatory="Yes" />
+         </Protocol>
+         <StudyEventDef OID="SE_Questionnaire0" Name="Visit1" Repeating="Yes" Type="Scheduled">
+            <FormRef FormOID="FORM.ONE" OrderNumber="1" Mandatory="No" />
+         </StudyEventDef>
+         <FormDef OID="FORM.ONE" Name="First Form" Repeating="Yes">
+            <ItemGroupRef ItemGroupOID="IG.ONE" OrderNumber="1" Mandatory="No" />
+         </FormDef>
          <!--
                Columns defined in the table
            -->
-   
-<ItemGroupDef OID="IG.ONE" Repeating="Yes"
-   Name="ItemData Extension"
-  
-   Comment="First Question">
-<ItemRef ItemOID="ID.Question1"   OrderNumber="1" Mandatory="No" />
-<ItemRef ItemOID="ID.Question2"   OrderNumber="2" Mandatory="No" /> 
-</ItemGroupDef>
-
+         <ItemGroupDef OID="IG.ONE" Repeating="Yes" Name="ItemData Extension" Comment="First Question">
+			<ItemRef ItemOID="ID.Question0" OrderNumber="0" Mandatory="No" />
+		   <ItemRef ItemOID="ID.Question1" OrderNumber="1" Mandatory="No" />
+            <ItemRef ItemOID="ID.Question2" OrderNumber="2" Mandatory="No" />
+			<ItemRef ItemOID="ID.Question3" OrderNumber="3" Mandatory="No" />
+            <ItemRef ItemOID="ID.Question4" OrderNumber="4" Mandatory="No" />
+			 <ItemRef ItemOID="ID.Question5" OrderNumber="5" Mandatory="No" />
+            <ItemRef ItemOID="ID.Question6" OrderNumber="6" Mandatory="No" />
+			 <ItemRef ItemOID="ID.Question7" OrderNumber="7" Mandatory="No" />
+            <ItemRef ItemOID="ID.Question8" OrderNumber="8" Mandatory="No" />
+			 <ItemRef ItemOID="ID.Question9" OrderNumber="9" Mandatory="No" />
+            <ItemRef ItemOID="ID.Question10" OrderNumber="10" Mandatory="No" />
+			 <ItemRef ItemOID="ID.Question11" OrderNumber="11" Mandatory="No" />
+            <ItemRef ItemOID="ID.Question12" OrderNumber="12" Mandatory="No" />
+			 <ItemRef ItemOID="ID.Question13" OrderNumber="13" Mandatory="No" />
+            <ItemRef ItemOID="ID.Question14" OrderNumber="14" Mandatory="No" />
+			 <ItemRef ItemOID="ID.Question15" OrderNumber="15" Mandatory="No" />
+            <ItemRef ItemOID="ID.Question16" OrderNumber="16" Mandatory="No" />
+			 <ItemRef ItemOID="ID.Question17" OrderNumber="17" Mandatory="No" />
+            <ItemRef ItemOID="ID.Question18" OrderNumber="18" Mandatory="No" />
+         </ItemGroupDef>
          <!--
                Column attributes as defined in the table
-
            -->
-   
-<ItemDef OID="ID.Question1.radioBut"    Name="Question1"  DataType="string" Comment="radio">
-<Question>
-<TranslatedText xml:lang="de">Hatten Sie in der letzten Woche deutliche Atemnot?</TranslatedText>
-</Question>
-<CodeListRef CodeListOID = "Q1"/> 
-</ItemDef>
-<ItemDef OID="ID.Question2.radioBut"    Name="Question2"  DataType="string" Comment="radio" >
-<Question>
-<TranslatedText xml:lang="de">  Wie stark f�hlen Sie sich dadurch belastet?</TranslatedText>
-</Question>
-<CodeListRef CodeListOID = "Q2"/> 
-</ItemDef>
-
-
-<CodeList OID="Q1"  Name="Question1" DataType="text">
-<CodeListItem CodedValue="Ja">
-<Decode> 
-  <TranslatedText xml:lang="de">Ja</TranslatedText>
-</Decode>
-</CodeListItem>
-   
-   <CodeListItem CodedValue="Nein">
-<Decode> 
-  <TranslatedText xml:lang="de">Nein</TranslatedText>
-</Decode>
-</CodeListItem>
-</CodeList>
- 
- 
-<CodeList OID="Q2"   Name="Question2" DataType="integer">
-<CodeListItem CodedValue="0">
-   <Decode> 
-  <TranslatedText xml:lang="de">0</TranslatedText>
-   </Decode>
-</CodeListItem>
-<CodeListItem CodedValue="1">
-   <Decode> 
-  <TranslatedText xml:lang="de">1</TranslatedText>
-   </Decode>
-</CodeListItem>
-<CodeListItem CodedValue="2">
-   <Decode> 
-  <TranslatedText xml:lang="de">2</TranslatedText>
-   </Decode>
-</CodeListItem>
-<CodeListItem CodedValue="3">
-   <Decode> 
-  <TranslatedText xml:lang="de">3</TranslatedText>
-   </Decode>
-</CodeListItem>
-<CodeListItem CodedValue="4">
-   <Decode> 
-  <TranslatedText xml:lang="de">4</TranslatedText>
-   </Decode>
-</CodeListItem>
-<CodeListItem CodedValue="5">
-   <Decode> 
-  <TranslatedText xml:lang="de">5</TranslatedText>
-   </Decode>
-</CodeListItem>
-</CodeList>
-
-</MetaDataVersion>
+		  <ItemDef OID="ID.Question0.radioBut" Name="Question0" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Hatten Sie in den letzten drei Tagen Fieber über 38°C?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q0" />
+         </ItemDef>
+         <ItemDef OID="ID.Question1.radioBut" Name="Question1" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Hatten Sie in der letzten Woche deutliche Atemnot?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q1" />
+         </ItemDef>
+         <ItemDef OID="ID.Question2.radioBut" Name="Question2" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Wie stark fühlen Sie sich dadurch belastet?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q2" />
+         </ItemDef>
+		 <ItemDef OID="ID.Question3.radioBut" Name="Question3" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Hatten Sie seit der letzten Behandlung Durchfall?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q3" />
+         </ItemDef>
+		 <ItemDef OID="ID.Question4.radioBut" Name="Question4" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Wie häufig hatten Sie Durchfall pro Tag (maximal)?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q4" />
+         </ItemDef>
+		 <ItemDef OID="ID.Question5.radioBut" Name="Question5" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Hatten Sie in der letzten Woche Schmerzen?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q5" />
+         </ItemDef>
+		 <ItemDef OID="ID.Question6.radioBut" Name="Question6" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Wie stark sind Ihre Schmerzen?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q6" />
+         </ItemDef>
+		 <ItemDef OID="ID.Question7.radioBut" Name="Question7" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Hatten Sie in den letzten drei Tagen Husten, Schnupfen, Halsschmerzen, Heiserkeit oder andere Symptome einer Erkältung?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q7" />
+         </ItemDef>
+		  <ItemDef OID="ID.Question8.radioBut" Name="Question8" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Hatten Sie in den letzten drei Tagen Brennen beim Wasserlassen oder einen vermehrten Harndrang?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q8" />
+         </ItemDef>
+		  <ItemDef OID="ID.Question9.radioBut" Name="Question9" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Hatten Sie seit der letzten Behandlung Kribbeln, Brennen oder Taubheitsgefühl in Füßen und/oder Händen?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q9" />
+         </ItemDef>
+		 <ItemDef OID="ID.Question10.radioBut" Name="Question10" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Wie stark fühlen Sie sich dadurch belastet?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q10" />
+         </ItemDef>
+		 		 <ItemDef OID="ID.Question11.radioBut" Name="Question11" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Hatten Sie seit der letzten Behandlung Übelkeit?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q11" />
+         </ItemDef>
+ 		 <ItemDef OID="ID.Question12.radioBut" Name="Question12" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Wie stark fühlen Sie sich dadurch belastet?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q12" />
+         </ItemDef>
+ 		 <ItemDef OID="ID.Question13.radioBut" Name="Question13" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Hatten Sie seit der letzten Behandlung schmerzhafte Stellen im Mund?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q13" />
+         </ItemDef>
+ 		 <ItemDef OID="ID.Question14.radioBut" Name="Question14" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Wie stark fühlen Sie sich dadurch belastet?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q14" />
+         </ItemDef>
+ 		 <ItemDef OID="ID.Question15.radioBut" Name="Question15" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Sind seit der letzten Behandlung Hautveränderungen aufgetreten?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q15" />
+         </ItemDef>
+ 		 <ItemDef OID="ID.Question16.radioBut" Name="Question16" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Wie stark fühlen Sie sich dadurch belastet?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q16" />
+         </ItemDef>
+ 		 <ItemDef OID="ID.Question17.radioBut" Name="Question17" DataType="string" Comment="radio">
+            <Question>
+               <TranslatedText xml:lang="de">Kennen Sie ihr aktuelles Gewicht?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q17" />
+         </ItemDef>
+			<ItemDef OID="ID.Question18.radioBut" Name="Question18" DataType="string" Comment="textfield">
+            <Question>
+               <TranslatedText xml:lang="de">Wie viel wiegen Sie aktuell [kg]?</TranslatedText>
+            </Question>
+            <CodeListRef CodeListOID="Q18" />
+         </ItemDef>
+		 <CodeList OID="Q0" Name="Question0" DataType="text">
+            <CodeListItem CodedValue="Ja">
+               <Decode>
+                  <TranslatedText xml:lang="de">Ja</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="Nein">
+               <Decode>
+                  <TranslatedText xml:lang="de">Nein</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+         <CodeList OID="Q1" Name="Question1" DataType="text">
+            <CodeListItem CodedValue="Ja">
+               <Decode>
+                  <TranslatedText xml:lang="de">Ja</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="Nein">
+               <Decode>
+                  <TranslatedText xml:lang="de">Nein</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+         <CodeList OID="Q2" Name="Question2" DataType="integer">
+            <CodeListItem CodedValue="1">
+               <Decode>
+                  <TranslatedText xml:lang="de">1</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="2">
+               <Decode>
+                  <TranslatedText xml:lang="de">2</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="3">
+               <Decode>
+                  <TranslatedText xml:lang="de">3</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="4">
+               <Decode>
+                  <TranslatedText xml:lang="de">4</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="5">
+               <Decode>
+                  <TranslatedText xml:lang="de">5</TranslatedText>
+               </Decode>
+            </CodeListItem>
+			<CodeListItem CodedValue="6">
+               <Decode>
+                  <TranslatedText xml:lang="de">6</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="7">
+               <Decode>
+                  <TranslatedText xml:lang="de">7</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="8">
+               <Decode>
+                  <TranslatedText xml:lang="de">8</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="9">
+               <Decode>
+                  <TranslatedText xml:lang="de">9</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="10">
+               <Decode>
+                  <TranslatedText xml:lang="de">10</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q3" Name="Question3" DataType="text">
+            <CodeListItem CodedValue="Ja">
+               <Decode>
+                  <TranslatedText xml:lang="de">Ja</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="Nein">
+               <Decode>
+                  <TranslatedText xml:lang="de">Nein</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q4" Name="Question4" DataType="text">
+            <CodeListItem CodedValue="1">
+               <Decode>
+                  <TranslatedText xml:lang="de">1</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="2">
+               <Decode>
+                  <TranslatedText xml:lang="de">2</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="3">
+               <Decode>
+                  <TranslatedText xml:lang="de">3</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="4">
+               <Decode>
+                  <TranslatedText xml:lang="de">4</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="5">
+               <Decode>
+                  <TranslatedText xml:lang="de">5</TranslatedText>
+               </Decode>
+            </CodeListItem>
+			<CodeListItem CodedValue="6">
+               <Decode>
+                  <TranslatedText xml:lang="de">6</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="7">
+               <Decode>
+                  <TranslatedText xml:lang="de">7</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="8">
+               <Decode>
+                  <TranslatedText xml:lang="de">8</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="9">
+               <Decode>
+                  <TranslatedText xml:lang="de">9</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="10">
+               <Decode>
+                  <TranslatedText xml:lang="de">10</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q5" Name="Question5" DataType="text">
+            <CodeListItem CodedValue="Ja">
+               <Decode>
+                  <TranslatedText xml:lang="de">Ja</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="Nein">
+               <Decode>
+                  <TranslatedText xml:lang="de">Nein</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q6" Name="Question6" DataType="text">
+            <CodeListItem CodedValue="1">
+               <Decode>
+                  <TranslatedText xml:lang="de">1</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="2">
+               <Decode>
+                  <TranslatedText xml:lang="de">2</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="3">
+               <Decode>
+                  <TranslatedText xml:lang="de">3</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="4">
+               <Decode>
+                  <TranslatedText xml:lang="de">4</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="5">
+               <Decode>
+                  <TranslatedText xml:lang="de">5</TranslatedText>
+               </Decode>
+            </CodeListItem>
+			<CodeListItem CodedValue="6">
+               <Decode>
+                  <TranslatedText xml:lang="de">6</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="7">
+               <Decode>
+                  <TranslatedText xml:lang="de">7</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="8">
+               <Decode>
+                  <TranslatedText xml:lang="de">8</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="9">
+               <Decode>
+                  <TranslatedText xml:lang="de">9</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="10">
+               <Decode>
+                  <TranslatedText xml:lang="de">10</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q7" Name="Question7" DataType="text">
+            <CodeListItem CodedValue="Ja">
+               <Decode>
+                  <TranslatedText xml:lang="de">Ja</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="Nein">
+               <Decode>
+                  <TranslatedText xml:lang="de">Nein</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q8" Name="Question8" DataType="text">
+            <CodeListItem CodedValue="Ja">
+               <Decode>
+                  <TranslatedText xml:lang="de">Ja</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="Nein">
+               <Decode>
+                  <TranslatedText xml:lang="de">Nein</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q9" Name="Question9" DataType="text">
+            <CodeListItem CodedValue="Ja">
+               <Decode>
+                  <TranslatedText xml:lang="de">Ja</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="Nein">
+               <Decode>
+                  <TranslatedText xml:lang="de">Nein</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q10" Name="Question10" DataType="text">
+            <CodeListItem CodedValue="1">
+               <Decode>
+                  <TranslatedText xml:lang="de">1</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="2">
+               <Decode>
+                  <TranslatedText xml:lang="de">2</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="3">
+               <Decode>
+                  <TranslatedText xml:lang="de">3</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="4">
+               <Decode>
+                  <TranslatedText xml:lang="de">4</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="5">
+               <Decode>
+                  <TranslatedText xml:lang="de">5</TranslatedText>
+               </Decode>
+            </CodeListItem>
+			<CodeListItem CodedValue="6">
+               <Decode>
+                  <TranslatedText xml:lang="de">6</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="7">
+               <Decode>
+                  <TranslatedText xml:lang="de">7</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="8">
+               <Decode>
+                  <TranslatedText xml:lang="de">8</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="9">
+               <Decode>
+                  <TranslatedText xml:lang="de">9</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="10">
+               <Decode>
+                  <TranslatedText xml:lang="de">10</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q11" Name="Question11" DataType="text">
+            <CodeListItem CodedValue="Ja">
+               <Decode>
+                  <TranslatedText xml:lang="de">Ja</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="Nein">
+               <Decode>
+                  <TranslatedText xml:lang="de">Nein</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q12" Name="Question12" DataType="text">
+           <CodeListItem CodedValue="1">
+               <Decode>
+                  <TranslatedText xml:lang="de">1</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="2">
+               <Decode>
+                  <TranslatedText xml:lang="de">2</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="3">
+               <Decode>
+                  <TranslatedText xml:lang="de">3</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="4">
+               <Decode>
+                  <TranslatedText xml:lang="de">4</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="5">
+               <Decode>
+                  <TranslatedText xml:lang="de">5</TranslatedText>
+               </Decode>
+            </CodeListItem>
+			<CodeListItem CodedValue="6">
+               <Decode>
+                  <TranslatedText xml:lang="de">6</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="7">
+               <Decode>
+                  <TranslatedText xml:lang="de">7</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="8">
+               <Decode>
+                  <TranslatedText xml:lang="de">8</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="9">
+               <Decode>
+                  <TranslatedText xml:lang="de">9</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="10">
+               <Decode>
+                  <TranslatedText xml:lang="de">10</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q13" Name="Question13" DataType="text">
+            <CodeListItem CodedValue="Ja">
+               <Decode>
+                  <TranslatedText xml:lang="de">Ja</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="Nein">
+               <Decode>
+                  <TranslatedText xml:lang="de">Nein</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q14" Name="Question14" DataType="text">
+           <CodeListItem CodedValue="1">
+               <Decode>
+                  <TranslatedText xml:lang="de">1</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="2">
+               <Decode>
+                  <TranslatedText xml:lang="de">2</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="3">
+               <Decode>
+                  <TranslatedText xml:lang="de">3</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="4">
+               <Decode>
+                  <TranslatedText xml:lang="de">4</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="5">
+               <Decode>
+                  <TranslatedText xml:lang="de">5</TranslatedText>
+               </Decode>
+            </CodeListItem>
+			<CodeListItem CodedValue="6">
+               <Decode>
+                  <TranslatedText xml:lang="de">6</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="7">
+               <Decode>
+                  <TranslatedText xml:lang="de">7</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="8">
+               <Decode>
+                  <TranslatedText xml:lang="de">8</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="9">
+               <Decode>
+                  <TranslatedText xml:lang="de">9</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="10">
+               <Decode>
+                  <TranslatedText xml:lang="de">10</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q15" Name="Question15" DataType="text">
+            <CodeListItem CodedValue="Ja">
+               <Decode>
+                  <TranslatedText xml:lang="de">Ja</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="Nein">
+               <Decode>
+                  <TranslatedText xml:lang="de">Nein</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q16" Name="Question16" DataType="text">
+            <CodeListItem CodedValue="1">
+               <Decode>
+                  <TranslatedText xml:lang="de">1</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="2">
+               <Decode>
+                  <TranslatedText xml:lang="de">2</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="3">
+               <Decode>
+                  <TranslatedText xml:lang="de">3</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="4">
+               <Decode>
+                  <TranslatedText xml:lang="de">4</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="5">
+               <Decode>
+                  <TranslatedText xml:lang="de">5</TranslatedText>
+               </Decode>
+            </CodeListItem>
+			<CodeListItem CodedValue="6">
+               <Decode>
+                  <TranslatedText xml:lang="de">6</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="7">
+               <Decode>
+                  <TranslatedText xml:lang="de">7</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="8">
+               <Decode>
+                  <TranslatedText xml:lang="de">8</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="9">
+               <Decode>
+                  <TranslatedText xml:lang="de">9</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="10">
+               <Decode>
+                  <TranslatedText xml:lang="de">10</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q17" Name="Question17" DataType="text">
+            <CodeListItem CodedValue="Ja">
+               <Decode>
+                  <TranslatedText xml:lang="de">Ja</TranslatedText>
+               </Decode>
+            </CodeListItem>
+            <CodeListItem CodedValue="Nein">
+               <Decode>
+                  <TranslatedText xml:lang="de">Nein</TranslatedText>
+               </Decode>
+            </CodeListItem>
+         </CodeList>
+		 <CodeList OID="Q18" Name="Question18" DataType="text">  
+         </CodeList>
+      </MetaDataVersion>
    </Study>
-
-
    <!--
          Administrative metadata
     
@@ -152,43 +688,72 @@
               <Organization>Super Hospital</Organization>
               <LocationRef LocationOID="LOC.site001"/>
       </User>
-
       
       <Location OID="LOC.site001" Name="Super Hospital" LocationType="Site">
               <MetaDataVersionRef StudyOID="Patient Questionnaire" MetaDataVersionOID="v1.0.0" EffectiveDate="20018-04-04"/>
       </Location>
-
-
       <SignatureDef OID="SD.cdisc001-es" Methodology="Electronic">
               <Meaning>Signature Meaning</Meaning>
               <LegalReason>Legal Reason</LegalReason>
       </SignatureDef>
    </AdminData>
  -->
-   
-   <ReferenceData StudyOID="Patient Questionnaire" MetaDataVersionOID="v1.0.0" >
-<ItemGroupData ItemGroupOID="IG.ONE" ItemGroupRepeatKey="1"><ItemData ItemOID="ID.Question1.radioBut" Value="1"/><ItemData ItemOID="ID.Question2.radioBut" Value="Sample reference data line 1"/></ItemGroupData>
-</ReferenceData>
+   <ReferenceData StudyOID="Patient Questionnaire" MetaDataVersionOID="v1.0.0">
+      <ItemGroupData ItemGroupOID="IG.ONE" ItemGroupRepeatKey="1">
+         <ItemData ItemOID="ID.Question0" Value="" />
+         <ItemData ItemOID="ID.Question1" Value="" />
+		 <ItemData ItemOID="ID.Question2" Value="" />
+         <ItemData ItemOID="ID.Question3" Value="" />
+		 <ItemData ItemOID="ID.Question4" Value="" />
+         <ItemData ItemOID="ID.Question5" Value="" />
+		 <ItemData ItemOID="ID.Question6" Value="" />
+         <ItemData ItemOID="ID.Question7" Value="" />
+		 <ItemData ItemOID="ID.Question8" Value="" />
+         <ItemData ItemOID="ID.Question9" Value="" />
+		 <ItemData ItemOID="ID.Question10" Value="" />
+         <ItemData ItemOID="ID.Question11" Value="" />
+		 <ItemData ItemOID="ID.Question12" Value="" />
+         <ItemData ItemOID="ID.Question13" Value="" />
+		 <ItemData ItemOID="ID.Question14" Value="" />
+         <ItemData ItemOID="ID.Question15" Value="" />
+		 <ItemData ItemOID="ID.Question16" Value="" />
+         <ItemData ItemOID="ID.Question17" Value="" />
+		 <ItemData ItemOID="ID.Question18" Value="" />	 
+      </ItemGroupData>
+   </ReferenceData>
    <!--
          Clinical Data   : RawValue
                            ItemData Extension
                            Sample ItemData Extension
      -->
- 
- 
    <ClinicalData StudyOID="Patient Questionnaire" MetaDataVersionOID="v1.0.0">
-      <SubjectData SubjectKey="001"> <!-- Patient1-->
+      <SubjectData SubjectKey="001">
+         <!-- Patient1-->
          <StudyEventData StudyEventOID="SE_Questionnaire0" StudyEventRepeatKey="1">
             <FormData FormOID="FORM.ONE" FormRepeatKey="1">
                <ItemGroupData ItemGroupOID="IG.ONE" ItemGroupRepeatKey="ALL ATTRIBUTE" TransactionType="Insert">
-                  <ItemData ItemOID="ID.Question1.radioBut"  Value="SELECT1" />
-                  <ItemData ItemOID="ID.Question2.radioBut"  Value="SELECT1" />
-                 
+                 <ItemData ItemOID="ID.Question0" Value="" />
+				 <ItemData ItemOID="ID.Question1" Value="" />
+				 <ItemData ItemOID="ID.Question2" Value="" />
+				 <ItemData ItemOID="ID.Question3" Value="" />
+				 <ItemData ItemOID="ID.Question4" Value="" />
+				 <ItemData ItemOID="ID.Question5" Value="" />
+				 <ItemData ItemOID="ID.Question6" Value="" />
+				 <ItemData ItemOID="ID.Question7" Value="" />
+				 <ItemData ItemOID="ID.Question8" Value="" />
+				 <ItemData ItemOID="ID.Question9" Value="" />
+				 <ItemData ItemOID="ID.Question10" Value="" />
+				 <ItemData ItemOID="ID.Question11" Value="" />
+				 <ItemData ItemOID="ID.Question12" Value="" />
+				 <ItemData ItemOID="ID.Question13" Value="" />
+				 <ItemData ItemOID="ID.Question14" Value="" />
+				 <ItemData ItemOID="ID.Question15" Value="" />
+				 <ItemData ItemOID="ID.Question16" Value="" />
+				 <ItemData ItemOID="ID.Question17" Value="" />
+				 <ItemData ItemOID="ID.Question18" Value="" />
                </ItemGroupData>
             </FormData>
          </StudyEventData>
       </SubjectData>
- 
-
    </ClinicalData>
 </ODM>
